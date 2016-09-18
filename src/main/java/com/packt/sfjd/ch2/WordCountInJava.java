@@ -27,8 +27,10 @@ public class WordCountInJava {
 					.map(line -> line.split(REGEX)).flatMap(Arrays::stream)
 					.collect(groupingBy(identity(), TreeMap::new, counting()));
 			
-			//System.out.println();
+			// Using Lambda Expression
 			Stream.of(count).forEach(x -> System.out.println(x));
+			//Using Method Reference
+			Stream.of(count).forEach(System.out::println);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
