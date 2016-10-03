@@ -13,6 +13,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class WordCountInJava {
 	public static final String REGEX = "\\s+";
+	public static final String NEW_LINE_CHAR = "\n";
 	public static final String imagineLyrics="Imagine there's no heaven \n"
 											+ "It's easy if you try \n"
 											+ "No hell below us \n"
@@ -22,8 +23,8 @@ public class WordCountInJava {
 	public static void main(String[] args) {
 
 		try {
-		//TreeMap<String, Long> count = Files.lines(Paths.get(args[0]))
-			TreeMap<String, Long> count = Stream.of( imagineLyrics.split("\n"))
+		//TreeMap<String, Long> count = Files.lines(Paths.get(args[0]), StandardCharsets.UTF_8)
+			TreeMap<String, Long> count = Stream.of( imagineLyrics.split(NEW_LINE_CHAR))
 					.map(line -> line.split(REGEX)).flatMap(Arrays::stream)
 					.collect(groupingBy(identity(), TreeMap::new, counting()));
 			
