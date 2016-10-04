@@ -12,10 +12,15 @@ public class TerminalOpExample {
 	public static void main(String[] args) {
 		// forEach
 		Supplier<Stream<String>> streamSupplier =()->Stream.of( new String[]{"Stream","from","an","array","of","objects"} ) ;
+		//Sequential For each
+		streamSupplier.get().sequential().forEach(P->System.out.println("Sequential output :: "+P));
+		//Parallel For each
+		streamSupplier.get().parallel().forEach(P->System.out.println("Parallel output :: "+P));
 		
-		streamSupplier.get().forEach(P->System.out.println());
 	//sum
-		System.out.println(streamSupplier.get().mapToInt(x -> x.length()).sum());   //Notice here had we used MAP , we would have had to another map function to convert the in Int.
+	//	System.out.println(streamSupplier.get().map(x -> x.toString().length()).peek(System.out::println).sum());
+		
+		System.out.println("Number of alphabets present in the stream ::"+streamSupplier.get().mapToInt(x -> x.length()).sum());   //Notice here had we used MAP , we would have had to another map function to convert the in Int.
 		 
     //reduce
 		Optional<Integer> simpleSum= streamSupplier.get().map(x->x.length()).reduce((x,y)-> x+y);
@@ -42,6 +47,27 @@ public class TerminalOpExample {
                          StringBuilder::append);
 		
 		String concatC = streamSupplier.get().collect(Collectors.joining());
+	
+		//Match
+	boolean matchesAll =streamSupplier.get().allMatch(x->x.toString().length() > 1);
+	System.out.println("All the elemetns have lenght greater than 1 ::"+matchesAll);	
+	
+	boolean noneMatches =streamSupplier.get().noneMatch(x->x.toString().length() > 1);
+	System.out.println("None of the elemetns have lenght greater than 1 ::"+noneMatches);	
+	
+	boolean anyMatches =streamSupplier.get().peek(x->System.out.println("Element being iterated is :: "+x)).anyMatch(x->x.toString().length() == 2);
+	System.out.println("The short circuit terminal operation finished with return value :: "+anyMatches);
+	
+	//Finding Element
+	System.out.println("In a paralled stream from 5-100 finding any element :: "+IntStream.range(5, 100).parallel().findAny());
+	
+	System.out.println("In a paralled stream from 8-100 finding the first element :: "+IntStream.range(8, 100).parallel().findFirst());
+	
+	//Count 		
+	long elementCount=streamSupplier.get().count();
+	System.out.println("The number of elements in the stream are :: "+elementCount);
+	
+	
 	
 	//System.out.println( joinWithReduce(Stream . of ( "foo" , "bar" , "baz" ) ));
 	

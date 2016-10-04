@@ -1,6 +1,11 @@
 package com.packt.sfjd.ch2;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +19,7 @@ import java.util.stream.Stream;
 
 public class CreateStreamExample {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		//Creating Streams using user/programmatically specified elements  
 		 Stream<String> Userstream = Stream.of("Creating","Streams","from","Specific","elements");
@@ -78,6 +83,10 @@ public class CreateStreamExample {
          Stream <Integer> sequentialIntegerStream1 = Stream.iterate (Integer.MIN_VALUE, i -> i++); 
 
          Stream <BigInteger> sequentialBigIntegerStream = Stream.iterate(BigInteger.ZERO, i -> i.add (BigInteger.TEN)); 
+         
+         //Streams from File
+         Stream<String> streamOfStrings = Files.lines(Paths.get("Apology_by_Plato.txt"));
+         Stream<String> streamWithCharset = Files.lines(Paths.get("Apology_by_Plato.txt"), Charset.forName("UTF-8"));
 
        
 	}
