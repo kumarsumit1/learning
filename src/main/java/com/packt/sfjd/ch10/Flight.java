@@ -4,7 +4,21 @@ import java.io.Serializable;
 
 public class Flight implements Serializable {
 	/**
-	 * 
+ |-- CRSArrTime: integer (nullable = true)
+ |-- CRSDepTime: integer (nullable = true)
+ |-- CRSElapsedTime: integer (nullable = true)
+ |-- actualElapsedTime: integer (nullable = true)
+ |-- airTime: integer (nullable = true)
+ |-- arrDelay: double (nullable = true)
+ |-- arrTime: integer (nullable = true)
+ |-- dayOfWeek: string (nullable = true)
+ |-- dayofMonth: string (nullable = true)
+ |-- depDelay: integer (nullable = true)
+ |-- depTime: integer (nullable = true)
+ |-- distance: integer (nullable = true)
+ |-- month: string (nullable = true)
+ |-- origin: string (nullable = true)
+ |-- uniqueCarrier: string (nullable = true) 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String Month;
