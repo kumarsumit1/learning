@@ -24,6 +24,7 @@ import org.apache.spark.sql.types.StructType;
 
 //https://community.hortonworks.com/articles/53903/spark-machine-learning-pipeline-by-example.html
 //http://stackoverflow.com/questions/35844330/vectorassembler-output-only-to-densevector
+//http://stackoverflow.com/questions/35224675/spark-ml-stringindexer-throws-unseen-label-on-fit
 public class FlightDelay {
 
 	public static void main(String[] args) {
@@ -135,11 +136,12 @@ public class FlightDelay {
 		                    .setOutputCol("rawFeatures");
 		
 		////////////////////////////////////////////////////////////////////////////////////////
-		/*
+		
 		//vestor slicer
 		VectorSlicer slicer = new VectorSlicer().setInputCol("rawFeatures").setOutputCol("slicedfeatures").setNames(new String[] {"MonthCat", "DayofMonthCat", "DayOfWeekCat", "UniqueCarrierCat", "depTime", "arrTime", "actualElapsedTime", "airTime", "depDelay", "distance"});
 		//scale the features
-		StandardScaler scaler = new StandardScaler().setInputCol("slicedfeatures").setOutputCol("features").setWithStd(true).setWithMean(true);
+		//Made a change by setting withMean as false which converts the output to dense vector
+		StandardScaler scaler = new StandardScaler().setInputCol("slicedfeatures").setOutputCol("features").setWithStd(true).setWithMean(false);
 		//labels for binary classifier
 		Binarizer binarizerClassifier = new Binarizer().setInputCol("arrDelay").setOutputCol("binaryLabel").setThreshold(15.0);
 		//logistic regression
@@ -158,10 +160,10 @@ public class FlightDelay {
 		// Select example rows to display.
 		lrPredictions.select("prediction", "binaryLabel", "features").show(20);
 		
-		*/
+		
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+	
 		//index category index in raw feature
 		VectorIndexer indexer = new VectorIndexer().setInputCol("rawFeatures").setOutputCol("rawFeaturesIndexed").setMaxCategories(10);
 		//PCA
@@ -180,7 +182,7 @@ public class FlightDelay {
 		dtPredictions.select("prediction", "multiClassLabel", "features").show(20);
 		
 		
-		
+	
 		
 		sparkSession.stop();
 
