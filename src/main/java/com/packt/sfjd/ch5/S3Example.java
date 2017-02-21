@@ -1,20 +1,31 @@
 package com.packt.sfjd.ch5;
 
+import java.util.Arrays;
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+
+import scala.Tuple2;
 
 public class S3Example {
 
 	
 	public static void main(String[] args) {
+		System.setProperty("hadoop.home.dir", "C:\\softwares\\Winutils");
 		SparkConf conf =new SparkConf().setMaster("local").setAppName("S3 Example");
 		JavaSparkContext jsc=new JavaSparkContext(conf);
-		jsc.hadoopConfiguration().set("fs.s3n.awsAccessKeyId", "AKIAIEWGWKBBL6UWWH4Q");
-		jsc.hadoopConfiguration().set("fs.s3n.awsSecretAccessKey", "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");
+		//jsc.hadoopConfiguration().set("fs.s3n.awsAccessKeyId", "AKIAJTNJS7OHOVKDWZCQ");
+		//jsc.hadoopConfiguration().set("fs.s3n.awsSecretAccessKey", "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");
 		
-		JavaRDD<String> textFile = jsc.textFile("s3n://"+"databricks-notebooks-data"+"/"+"s3data.txt");
 		
-		System.out.println(textFile.collect());
+		System.out.println(System.getenv("AWS_ACCESS_KEY_ID"));
+		JavaRDD<String> textFile = jsc.textFile("s3a://"+"trust"+"/"+"MOCK_DATA.csv");
+		
+//		textFile.flatMap(x -> Arrays.asList(x.split(",")).iterator()).mapToPair(x -> new Tuple2<String, Integer>((String) x, 1))
+//		.reduceByKey((x, y) -> x + y).saveAsTextFile("s3n://"+"trust"+"/"+"out.txt");
+		
+		textFile.flatMap(x -> Arrays.asList(x.split(",")).iterator()).mapToPair(x -> new Tuple2<String, Integer>((String) x, 1))
+		.reduceByKey((x, y) -> x + y).saveAsTextFile("s3a://"+"trust"+"/"+"out.txt");
 	}
 }
