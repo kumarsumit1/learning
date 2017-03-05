@@ -86,6 +86,8 @@ public class JsonFileOperations {
 		     
 		     person_mod.printSchema();
 		     person_mod.show();
+		     
+		     person_mod.write().format("json").mode("overwrite").save("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_out.json");
 
 	}
 
