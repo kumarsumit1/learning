@@ -58,6 +58,12 @@
 			<version>1.4.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.databricks</groupId>
+			<artifactId>spark-xml_${scala.binary.version}</artifactId>
+			<version>0.4.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
 			<version>9.4</version>
