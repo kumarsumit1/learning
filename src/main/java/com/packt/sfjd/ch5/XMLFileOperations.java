@@ -14,7 +14,7 @@ public class XMLFileOperations {
 	public static void main(String[] args) {
 		 System.setProperty("hadoop.home.dir", "E:\\sumitK\\Hadoop");
 			
-	      SparkSession spark = SparkSession
+	      SparkSession sparkSession = SparkSession
 	      .builder()
 	      .master("local")
 		  .config("spark.sql.warehouse.dir","file:///E:/sumitK/Hadoop/warehouse")
@@ -24,15 +24,21 @@ public class XMLFileOperations {
 			rootLogger.setLevel(Level.WARN); 
 
 		
-		String formatClass = "com.databricks.spark.xml";
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("rowTag", "food");
-		// params.put("failFast", "true");
-		 Dataset<Row> docDF = spark.read().format(formatClass).options(params).load("C:/Users/sumit.kumar/git/learning/src/main/resources/breakfast_menu.xml");
+		params.put("failFast", "true");
+		 Dataset<Row> docDF = sparkSession.read()
+				                   .format("com.databricks.spark.xml")
+				                   .options(params)
+				                   .load("C:/Users/sumit.kumar/git/learning/src/main/resources/breakfast_menu.xml");
 		 
-		 docDF.printSchema();
-		 
+		 docDF.printSchema();		 
 		 docDF.show();
+		 
+		 docDF.write().format("com.databricks.spark.xml")
+		    .option("rootTag", "food")
+		    .option("rowTag", "food")
+		    .save("C:/Users/sumit.kumar/git/learning/src/main/resources/newMenu.xml");
 
 	}
 

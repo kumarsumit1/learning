@@ -1,7 +1,13 @@
 package com.packt.sfjd.ch5;
 
-public class Person {
+import java.io.Serializable;
 
+public class Person implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String Name;
 	private Integer Age;
 	public String getName() {
@@ -15,6 +21,10 @@ public class Person {
 	}
 	public void setAge(Integer age) {
 		Age = age;
+	}
+	@Override
+	public String toString() {
+		return String.format("Person [Name=%s, Age=%s]", Name, Age);
 	}
 	
 }

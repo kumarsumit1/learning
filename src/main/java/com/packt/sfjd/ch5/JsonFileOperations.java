@@ -23,45 +23,37 @@ public class JsonFileOperations {
 		System.setProperty("hadoop.home.dir", "E:\\sumitK\\Hadoop");
 		Logger rootLogger = LogManager.getRootLogger();
 		rootLogger.setLevel(Level.WARN); 
-		      SparkSession spark = SparkSession
+		      SparkSession sparkSession = SparkSession
 		      .builder()
 		      .master("local")
 			  .config("spark.sql.warehouse.dir","file:///E:/sumitK/Hadoop/warehouse")
 		      .appName("JavaALSExample")
 		      .getOrCreate();
 		      
-		   RDD<String> textFile = spark.sparkContext().textFile("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_json.json",2); 
+		   RDD<String> textFile = sparkSession.sparkContext().textFile("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_json.json",2); 
 		   
 		   JavaRDD<PersonDetails> mapParser = textFile.toJavaRDD().map(new Function<String, PersonDetails>() {
-
 			@Override
-			public PersonDetails call(String v1) throws Exception {
-				
+			public PersonDetails call(String v1) throws Exception {				
 				return new ObjectMapper().readValue(v1, PersonDetails.class);
 			}
 		});
 		   
 		  mapParser.foreach(new VoidFunction<PersonDetails>() {
-
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void call(PersonDetails t) throws Exception {
-				System.out.println(t);
-				
+				System.out.println(t);				
 			}
 		}); 
-		   Dataset<Row> anotherPeople = spark.read().json(textFile);
-		   
-		 //  anotherPeople.
+		  
+		   Dataset<Row> anotherPeople = sparkSession.read().json(textFile);
 		   
 		   anotherPeople.printSchema();
 		   anotherPeople.show();
 		      
 		      
-		      Dataset<Row> json_rec = spark.read().json("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_json.json");
-		      
-		      
+		      Dataset<Row> json_rec = sparkSession.read().json("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_json.json");
 		      json_rec.printSchema();
 		      
 		      json_rec.show();
@@ -82,7 +74,7 @@ public class JsonFileOperations {
 						new StructField("Year", DataTypes.StringType, true, Metadata.empty()),
 					    new StructField("timestamp", DataTypes.TimestampType, true, Metadata.empty()) });*/
 		      
-		     Dataset<Row> person_mod = spark.read().schema(schema).json(textFile);
+		     Dataset<Row> person_mod = sparkSession.read().schema(schema).json(textFile);
 		     
 		     person_mod.printSchema();
 		     person_mod.show();
