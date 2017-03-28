@@ -1,15 +1,11 @@
 package com.packt.sfjd.ch5;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.VoidFunction;
 
 public class TextFileOperations {
 
@@ -22,47 +18,34 @@ public class TextFileOperations {
 				
 				
 				JavaRDD<Person> people =textFile.map(
-				  new Function<String, Person>() {
-				    public Person call(String line) throws Exception {
-				      String[] parts = line.split("~");
-				      Person person = new Person();
-				      person.setName(parts[0]);
-				      person.setAge(Integer.parseInt(parts[1].trim()));
-				      return person;
-				    }
-				  });
-				  
-				  
-				people.foreach(new VoidFunction<Person>() {					
-					@Override
-					public void call(Person t) throws Exception {
-						System.out.println(t);						
-					}
+				  line -> {
+				  String[] parts = line.split("~");
+				  Person person = new Person();
+				  person.setName(parts[0]);
+				  person.setAge(Integer.parseInt(parts[1].trim()));
+				  person.setOccupation(parts[2]);
+				  return person;
 				});
+				  
+				  
+				people.foreach(p -> System.out.println(p));
 			
 			
 				
-				JavaRDD<Person> peoplePart = textFile.mapPartitions(new FlatMapFunction<Iterator<String>, Person>() {
-					@Override
-					public Iterator<Person> call(Iterator<String> t)throws Exception {
-						ArrayList<Person> personList=new ArrayList<Person>();
-						while (t.hasNext()){
-							String[] parts = t.next().split("~");
-						      Person person = new Person();
-						      person.setName(parts[0]);
-						      person.setAge(Integer.parseInt(parts[1].trim()));	
-						      personList.add(person);
-						}
-						return  personList.iterator();
+				JavaRDD<Person> peoplePart = textFile.mapPartitions(p -> {
+					ArrayList<Person> personList=new ArrayList<Person>();
+					while (p.hasNext()){
+						String[] parts = p.next().split("~");
+					      Person person = new Person();
+					      person.setName(parts[0]);
+					      person.setAge(Integer.parseInt(parts[1].trim()));	
+					      person.setOccupation(parts[2]);
+					      personList.add(person);
 					}
+					return  personList.iterator();
 				});
 				  
-				peoplePart.foreach(new VoidFunction<Person>() {
-					@Override
-					public void call(Person t) throws Exception {
-						System.out.println(t);						
-					}
-				});
+				peoplePart.foreach(p -> System.out.println(p));
 			
 				
 				people.saveAsTextFile("C:/Users/sumit.kumar/git/learning/src/main/resources/peopleSimple");

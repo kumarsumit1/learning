@@ -6,8 +6,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -32,24 +30,14 @@ public class CSVFileOperations {
 	      Logger rootLogger = LogManager.getRootLogger();
 			rootLogger.setLevel(Level.WARN); 
 
-	    JavaRDD<Movies> moviesRDD = sparkSession
+	    JavaRDD<Movie> moviesRDD = sparkSession
 	      .read().textFile("C:/Users/sumit.kumar/git/learning/src/main/resources/movies.csv")
 	      .javaRDD().filter( str-> !(null==str))
 	      .filter(str-> !(str.length()==0))
 	      .filter(str-> !str.contains("movieId"))	      
-	      .map(new Function<String, Movies>() {
-			private static final long serialVersionUID = 1L;
-			public Movies call(String str) {		        	
-	          return Movies.parseRating(str);
-	        }
-	      });
+	      .map(str -> Movie.parseRating(str));
 	    
-	    moviesRDD.foreach(new VoidFunction<Movies>() {			
-			@Override
-			public void call(Movies t) throws Exception {
-				System.out.println(t);				
-			}
-		});
+	    moviesRDD.foreach(m -> System.out.println(m));
 	    
 	       Dataset<Row> csv_read = sparkSession.read().format("com.databricks.spark.csv")
 		        		      .option("header", "true")

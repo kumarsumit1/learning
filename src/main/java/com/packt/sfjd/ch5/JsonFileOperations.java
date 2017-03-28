@@ -4,8 +4,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.rdd.RDD;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -32,20 +30,9 @@ public class JsonFileOperations {
 		      
 		   RDD<String> textFile = sparkSession.sparkContext().textFile("C:/Users/sumit.kumar/git/learning/src/main/resources/pep_json.json",2); 
 		   
-		   JavaRDD<PersonDetails> mapParser = textFile.toJavaRDD().map(new Function<String, PersonDetails>() {
-			@Override
-			public PersonDetails call(String v1) throws Exception {				
-				return new ObjectMapper().readValue(v1, PersonDetails.class);
-			}
-		});
+		   JavaRDD<PersonDetails> mapParser = textFile.toJavaRDD().map(v1 -> new ObjectMapper().readValue(v1, PersonDetails.class));
 		   
-		  mapParser.foreach(new VoidFunction<PersonDetails>() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public void call(PersonDetails t) throws Exception {
-				System.out.println(t);				
-			}
-		}); 
+		   mapParser.foreach(t -> System.out.println(t)); 
 		  
 		   Dataset<Row> anotherPeople = sparkSession.read().json(textFile);
 		   

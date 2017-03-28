@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class PersonDetails implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Integer cid;
 	private String county;
 	private String firstName;
@@ -51,14 +46,5 @@ public class PersonDetails implements Serializable {
 	public void setDateOfBirth(Timestamp dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	@Override
-	public String toString() {
-		return String
-				.format("PersonDetails [cid=%s, county=%s, firstName=%s, sex=%s, year=%s, dateOfBirth=%s]",
-						cid, county, firstName, sex, year, dateOfBirth);
-	}
 	
-		
-	
-
 }

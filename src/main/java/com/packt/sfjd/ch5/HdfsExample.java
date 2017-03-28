@@ -12,7 +12,7 @@ public static void main(String[] args) {
 	jsc.hadoopConfiguration().setLong("dfs.blocksize",2);
 	//jsc.hadoopConfiguration().setLong("fs.local.block.size",2);
 	
-	JavaRDD<String> hadoopRdd = jsc.textFile("hdfs://ch3lxesgdi02.corp.equinix.com:8020/user/gse/packt/ch01/test1");
+	JavaRDD<String> hadoopRdd = jsc.textFile("hdfs://ch3lxesgdi02.corp.equinix.com:8020/user/gse/packt/ch01/test1",2);
 	
 	System.out.println(hadoopRdd.getNumPartitions());
 	//hadoopRdd.saveAsTextFile("hdfs://ch3lxesgdi02.corp.equinix.com:8020/user/gse/packt/ch01/testout");

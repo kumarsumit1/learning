@@ -3,27 +3,17 @@ package com.packt.sfjd.ch5;
 import java.io.Serializable;
 import java.util.stream.Stream;
 
-public class Movies implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
+public class Movie implements Serializable {
 	private Integer movieId;
 	private String title;
-	private String genere;
+	private String genre;
 	
-    public Movies() {};
-	
-	
-	
-	public Movies(Integer movieId, String title, String genere) {
+    public Movie() {};
+	public Movie(Integer movieId, String title, String genere) {
 		super();
 		this.movieId = movieId;
 		this.title = title;
-		this.genere = genere;
+		this.genre = genere;
 	}
 	public Integer getMovieId() {
 		return movieId;
@@ -38,12 +28,12 @@ public class Movies implements Serializable {
 		this.title = title;
 	}
 	public String getGenere() {
-		return genere;
+		return genre;
 	}
 	public void setGenere(String genere) {
-		this.genere = genere;
+		this.genre = genere;
 	}
-	public static Movies parseRating(String str) {
+	public static Movie parseRating(String str) {
 		  String[] fields = str.split(",");
 	      if (fields.length != 3) {
 	      System.out.println("The elements are ::" ); 
@@ -53,16 +43,6 @@ public class Movies implements Serializable {
 	      Integer movieId = Integer.parseInt(fields[0]);
 	      String title = fields[1].trim();
 	      String genere = fields[2].trim();
-	      return new Movies(movieId,title,genere);
+	      return new Movie(movieId,title,genere);
 	}
-
-
-
-	@Override
-	public String toString() {
-		return String.format("Movies [movieId=%s, title=%s, genere=%s]",
-				movieId, title, genere);
-	}
-	
-
 }
