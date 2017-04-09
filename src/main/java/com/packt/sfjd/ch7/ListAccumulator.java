@@ -13,6 +13,7 @@ public class ListAccumulator extends AccumulatorV2<String, CopyOnWriteArrayList<
 	public ListAccumulator() {
 		accList = new CopyOnWriteArrayList<String>();
 		
+		
 	}
 
 	public ListAccumulator(List<String> value) {
