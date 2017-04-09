@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.util.CollectionAccumulator;
+import org.apache.spark.util.LongAccumulator;
 
 public class TestAccumulator {
 
@@ -23,6 +25,12 @@ public class TestAccumulator {
 		ListAccumulator listAccumulator=new ListAccumulator();
 		
 		sparkSession.sparkContext().register(listAccumulator, "ListAccumulator");
+		
+		LongAccumulator longAccumulator = sparkSession.sparkContext().longAccumulator("longAccumulator");
+		//sparkSession.sparkContext().doubleAccumulator()
+		//CollectionAccumulator<String> ses = sparkSession.sparkContext().collectionAccumulator();
+		
+		
 		
 		//listAccumulator
 		
