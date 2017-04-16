@@ -1,23 +1,24 @@
 package com.packt.sfjd.ch7;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.spark.util.AccumulatorV2;
 
-public class ListAccumulator extends AccumulatorV2<String, List<String>> {
+public class ListAccumulator extends AccumulatorV2<String, CopyOnWriteArrayList<String>> {
 
 	private static final long serialVersionUID = 1L;
-	private List<String> accList=null;
+	private CopyOnWriteArrayList<String> accList=null;
 	
 	public ListAccumulator() {
-		accList = new ArrayList<String>();
+		accList = new CopyOnWriteArrayList<String>();
+		
 		
 	}
 
 	public ListAccumulator(List<String> value) {
 		if (value.size() != 0) {
-			accList = new ArrayList<String>(value);
+			accList = new CopyOnWriteArrayList<String>(value);
 		}
 	}
 
@@ -29,7 +30,7 @@ public class ListAccumulator extends AccumulatorV2<String, List<String>> {
 	}
 
 	@Override
-	public AccumulatorV2<String, List<String>> copy() {
+	public AccumulatorV2<String, CopyOnWriteArrayList<String>> copy() {
 		return new ListAccumulator(value());
 	}
 
@@ -39,7 +40,7 @@ public class ListAccumulator extends AccumulatorV2<String, List<String>> {
 	}
 
 	@Override
-	public void merge(AccumulatorV2<String, List<String>> other) {
+	public void merge(AccumulatorV2<String, CopyOnWriteArrayList<String>> other) {
 		add(other.value());
 
 	}
@@ -50,11 +51,11 @@ public class ListAccumulator extends AccumulatorV2<String, List<String>> {
 
 	@Override
 	public void reset() {
-		accList = new ArrayList<String>();
+		accList = new CopyOnWriteArrayList<String>();
 	}
 
 	@Override
-	public List<String> value() {
+	public CopyOnWriteArrayList<String> value() {
 		return accList;
 	}
 
