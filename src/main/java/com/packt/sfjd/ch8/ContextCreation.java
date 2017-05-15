@@ -3,7 +3,6 @@ package com.packt.sfjd.ch8;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SQLContext;
-import org.apache.spark.sql.hive.HiveContext;
 
 public class ContextCreation {
 @SuppressWarnings("deprecation")
@@ -15,6 +14,6 @@ public static void main(String[] args) {
 	
 	SQLContext sqlContext = new SQLContext(javaSparkContext);
 	
-	HiveContext hiveContext = new HiveContext(javaSparkContext);
+	//HiveContext hiveContext = new HiveContext(javaSparkContext);
 }
 }
