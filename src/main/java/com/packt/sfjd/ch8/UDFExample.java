@@ -4,8 +4,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.TypedColumn;
 import org.apache.spark.sql.api.java.UDF2;
 import org.apache.spark.sql.types.DataTypes;
 
@@ -31,7 +33,7 @@ public class UDFExample {
 	   		         .option("inferSchema", "true")
 	   		         .load("src/main/resources/employee.txt");    
 	    		
-		  UDF2 calcDays=new CalcDaysUDF();
+		    UDF2 calcDays=new CalcDaysUDF();
 		  //Registering the UDFs in Spark Session created above      
 		    sparkSession.udf().register("calcDays", calcDays, DataTypes.LongType);
 		    
@@ -41,12 +43,23 @@ public class UDFExample {
 		    emp_ds.show();
 		    
 		    sparkSession.sql("select calcDays(hiredate,'dd-MM-yyyy') from emp_ds").show();   
+		    //Instantiate UDAF
+		    AverageUDAF calcAvg= new AverageUDAF();
+		    //Register UDAF to SparkSession
+		    sparkSession.udf().register("calAvg", calcAvg);
+		    //Use UDAF
+		    sparkSession.sql("select deptno,calAvg(salary) from emp_ds group by deptno ").show(); 
+		   
+		    //
+		    TypeSafeUDAF typeSafeUDAF=new TypeSafeUDAF();
 		    
-		    CaclUDAF udaf= new CaclUDAF();
+		    Dataset<Employee> emf = emp_ds.as(Encoders.bean(Employee.class));
+		    emf.printSchema();
+		    emf.show();
 		    
-		    sparkSession.udf().register("calcUD", udaf);
-		    
-		    sparkSession.sql("select deptno,calcUD(deptno) from emp_ds group by deptno ").show();  
+		    TypedColumn<Employee, Double> averageSalary = typeSafeUDAF.toColumn().name("averageTypeSafe");
+		    Dataset<Double> result = emf.select(averageSalary);
+		   result.show();
 		    
 
 	}

@@ -10,14 +10,10 @@ public class CalcDaysUDF implements UDF2<String,String, Long> {
 	private static final long serialVersionUID = 1L;
 	@Override
 	public Long call(String dateString,String format) throws Exception {
-		//SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat myFormat = new SimpleDateFormat(format);
 		    Date date1 = myFormat.parse(dateString);
 		    Date date2 = new Date();
 		    long diff = date2.getTime() - date1.getTime();
-		  //  System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-			return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-		
+			return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);		
 	}
-
 }
