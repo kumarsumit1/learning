@@ -47,11 +47,11 @@
 			<artifactId>spark-mllib_${scala.binary.version}</artifactId>
 			<version>${spark.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.spark</groupId> -->
-		<!-- <artifactId>spark-streaming-kafka_2.10</artifactId> -->
-		<!-- <version>${spark.version}</version> -->
-		<!-- </dependency> -->
+		<dependency>
+		<groupId>org.apache.spark</groupId>
+		<artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+		<version>${spark.version}</version>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.databricks</groupId> -->
 		<!-- <artifactId>spark-csv_${scala.binary.version}</artifactId> -->
@@ -92,13 +92,13 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.sun</groupId> -->
-<!-- 			<artifactId>tools</artifactId> -->
-<!-- 			<version>${java-version}</version> -->
-<!-- 			<scope>system</scope> -->
-<!-- 			<systemPath>C:\\Program Files\\Java\\jdk1.8.0_65\\lib\\tools.jar</systemPath> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>${java-version}</version>
+			<scope>system</scope>
+			<systemPath>C:\\Program Files\\Java\\jdk1.8.0_65\\lib\\tools.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
