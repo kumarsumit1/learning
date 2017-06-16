@@ -29,7 +29,7 @@ public class StateFulProcessingExample {
 		SparkSession sparkSession = SparkSession.builder().master("local[*]").appName("Stateful Streaming Example")
 				.config("spark.sql.warehouse.dir", "file:////C:/Users/sgulati/spark-warehouse").getOrCreate();
 
-		JavaStreamingContext jssc = new JavaStreamingContext(new JavaSparkContext(sparkSession.sparkContext()),
+		JavaStreamingContext jssc= new JavaStreamingContext(new JavaSparkContext(sparkSession.sparkContext()),
 				Durations.milliseconds(1000));
 		JavaReceiverInputDStream<String> inStream = jssc.socketTextStream("10.204.136.223", 9999);
 		jssc.checkpoint("C:\\Users\\sgulati\\spark-checkpoint");
