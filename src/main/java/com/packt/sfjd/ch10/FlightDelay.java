@@ -37,6 +37,9 @@ public class FlightDelay {
 				.appName("FlightDelay").getOrCreate();
 		Logger rootLogger = LogManager.getRootLogger();
 		rootLogger.setLevel(Level.WARN);
+		
+		
+		//sparkSession.read().op.load(path)
 		//
 		Dataset<String> flight2007 = sparkSession.read()
 				.textFile("E:\\sumitK\\Hadoop\\flights_2007.csv.bz2")
@@ -141,6 +144,7 @@ public class FlightDelay {
 		VectorSlicer slicer = new VectorSlicer().setInputCol("rawFeatures").setOutputCol("slicedfeatures").setNames(new String[] {"MonthCat", "DayofMonthCat", "DayOfWeekCat", "UniqueCarrierCat", "depTime", "arrTime", "actualElapsedTime", "airTime", "depDelay", "distance"});
 		//scale the features
 		//Made a change by setting withMean as false which converts the output to dense vector
+		//https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/mllib/feature/StandardScaler.scala
 		StandardScaler scaler = new StandardScaler().setInputCol("slicedfeatures").setOutputCol("features").setWithStd(true).setWithMean(false);
 		//labels for binary classifier
 		Binarizer binarizerClassifier = new Binarizer().setInputCol("arrDelay").setOutputCol("binaryLabel").setThreshold(15.0);
