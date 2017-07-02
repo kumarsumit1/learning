@@ -20,20 +20,23 @@ public class PropertyGraphExampleFromEdges {
 		System.setProperty("hadoop.home.dir", "C:\\softwares\\Winutils");
 		SparkConf conf = new SparkConf().setMaster("local").setAppName("graph");
 		JavaSparkContext javaSparkContext = new JavaSparkContext(conf);
-		ClassTag<Long> longTag = scala.reflect.ClassTag$.MODULE$.apply(Long.class);
 		ClassTag<String> stringTag = scala.reflect.ClassTag$.MODULE$.apply(String.class);
 
 
 		List<Edge<String>> edges = new ArrayList<>();
 
-		edges.add( new Edge<String>(0, 1, "Friend"));
-		edges.add(new Edge<String>(1, 2, "Collegue"));
-		edges.add( new Edge<String>(0, 2, "Friend"));
+		edges.add(new Edge<String>(1, 2, "Friend"));
+		edges.add(new Edge<String>(2, 3, "Advisor"));
+		edges.add(new Edge<String>(1, 3, "Friend"));
+		edges.add(new Edge<String>(4, 3, "colleague"));
+		edges.add(new Edge<String>(4, 5, "Relative"));
+		edges.add(new Edge<String>(2, 5, "BusinessPartners"));
+
 
 		JavaRDD<Edge<String>> edgeRDD = javaSparkContext.parallelize(edges);
 		
 		
-		Graph<Long, String> graph = Graph.fromEdges(edgeRDD.rdd(), 1l,StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), longTag, stringTag);
+		Graph<String, String> graph = Graph.fromEdges(edgeRDD.rdd(), "",StorageLevel.MEMORY_ONLY(), StorageLevel.MEMORY_ONLY(), stringTag, stringTag);
 		
 		
 		graph.vertices().toJavaRDD().collect().forEach(System.out::println);
