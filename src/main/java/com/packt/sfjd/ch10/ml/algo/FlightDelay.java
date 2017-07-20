@@ -1,4 +1,4 @@
-package com.packt.sfjd.ch10;
+package com.packt.sfjd.ch10.ml.algo;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;

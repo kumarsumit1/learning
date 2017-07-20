@@ -1,4 +1,4 @@
-package com.packt.sfjd.ch10;
+package com.packt.sfjd.ch10.ml.algo;
 
 import java.io.Serializable;
 
